@@ -42,6 +42,32 @@ Are there gonna be more searches of these words at the start of a new year?
 *Output:*  
 ![image](https://github.com/TheGingeros/presentations/assets/81049688/9e187f5f-5bfd-4e24-bb64-58b71dbd408a)
 
+### Let's rename the columns to be easily readable
+	# Renaming the columns
+ 	df.columns = ['month', 'diet', 'gym', 'finance']
 
+  	# And let's print the result
+   	print(df.describe())
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/14b4103e-ca4e-4fb1-9c86-733b856d7929)
 
+### Now we need to convert the month column into DateTime data type so we can start doing some cool stuff
+	df.month = pd.to_datetime(df.month)
+ 	df.set_index('month', inplace=True)
+  	# Note that we use the inplace parameter to change the original indexing rather than creating new object
+
+ 	print(df.head())
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/195a6a99-e6c1-463f-9ad2-0cb8efcc7063)  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/d8d362a8-34f7-45a9-94f3-2ee424ebc2b1)
+
+### So let's visualize our Time Series object
+	df.plot()
+	plt.xlabel('Year')
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/5dbc392e-c1b7-4399-8eb4-bcddda14d3a5)  
+The Y axes represents the search interest relative to the highest point on the chart for the given region
+and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term
+is half as popular. Likewise a score of 0 means the term was less than 1% as popular as the
+peak.
 
