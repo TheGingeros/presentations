@@ -69,5 +69,26 @@ Are there gonna be more searches of these words at the start of a new year?
 The Y axes represents the search interest relative to the highest point on the chart for the given region
 and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term
 is half as popular. Likewise a score of 0 means the term was less than 1% as popular as the
-peak.
+peak.  
+
+We manage to create a pretty cool graph, but is it easy to read? Let's use resampling, smoothing and rolling average to visualize the 'diet' data better.    
+
+**Rolling Average:** For each time point, take the average of the points on either side of it (the number of points is effecte by the window size!)
+
+### Let's start by extracting the 'diet' column from our time series object
+	diet = df['diet']
+
+ 	# Let's resample the data using the .resample() method with parameter 'A' = year frequency
+  	diet_resamp_yr = diet.resample('A').mean()
+
+    # And apply the rolling average - 12 means that the size of the window will be 12 (12 time points in the graph)
+	diet_roll_yr = diet.rolling(12).mean()
+
+	# And let's plot this bad boy with some simple legend
+ 	ax = diet.plot(alpha=0.5, style='-') # store axis (ax) for latter plots
+	diet_resamp_yr.plot(style=':', label='Resample at year frequency', ax=ax)
+	diet_roll_yr.plot(style='--', label='Rolling average (smooth), window size=12', ax=ax)
+	ax.legend()
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/e2ee52bf-3055-4c8d-931f-c775e844a436)
 
