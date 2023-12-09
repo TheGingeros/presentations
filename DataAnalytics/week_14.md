@@ -92,3 +92,17 @@ We manage to create a pretty cool graph, but is it easy to read? Let's use resam
 *Output:*  
 ![image](https://github.com/TheGingeros/presentations/assets/81049688/e2ee52bf-3055-4c8d-931f-c775e844a436)
 
+### We can even combine both 'diet' and 'gym' data by creating new DataFrame which will be concatenation of both 'diet' and 'gym' smoothed data
+	# Extract the gym data
+	gym = df['gym']
+
+  	# Create the new DataFrame
+	df_avg = pd.concat([diet.rolling(12).mean(), gym.rolling(12).mean()], axis=1)
+
+ 	# And plot it
+	df_avg.plot()
+	plt.xlabel('Year')
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/bfcac076-7e7b-4954-86d1-6ec094b954ad)
+
+
