@@ -105,4 +105,100 @@ We manage to create a pretty cool graph, but is it easy to read? Let's use resam
 *Output:*  
 ![image](https://github.com/TheGingeros/presentations/assets/81049688/bfcac076-7e7b-4954-86d1-6ec094b954ad)
 
+### First order Differences in the data
+	# Use the .diff() method to calculate differences between each month
+	df.diff().plot()
+ 	# And plot it
+	plt.xlabel('Year')
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/985c5879-d93a-48db-87be-25a7c08d284d)
+
+### Correlation  
+* Describes the degree to which two variables change together
+* Example:
+	* Positive Correlation: An increase in one variable is associated with an increase in the other
+	* Negative Correlation: An increase in one variable is associated with a decrease in the other
+* We use **Correlation Coefficient** to measure correlation, denoted by *r*, which ranges from -1 to 1
+ 
+			# First let's plot the original data to see what we are working with
+			df.plot()
+			plt.xlabel('Year');
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/42055a19-031b-49be-af9a-e160aa289f2f)  
+
+  			# Let's print the correlation for this and its matrix
+			print(df.corr()) 
+   			sns.heatmap(df.corr(), cmap="coolwarm")
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/dbb3dfe8-70ab-4952-b655-9a0f99a8c9c0)  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/f7cbcfa1-2e00-4d96-bac3-3d49e141d4ac)  
+
+We can see that the both 'diet' and 'gym' are negatively correlated.  
+Correlation consists of two components:   
+* **Trend components** - negatively correlated
+* **Seasonal components** - positively correlated  
+  
+The actual correlation coefficient is actually capturing both of those. So let's find!
+
+### Calculation of seasonal correlation
+* correlation of the first-order differences of these time series
+
+#### Let's plot the first order differences first
+		df.diff().plot()
+		plt.xlabel('Year');
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/20c9290d-eb9b-4189-af02-e2379d08dc9c)  
+
+#### Now let's look at the correlation of these differences in the matrix
+		print(df.diff().corr())
+  		sns.heatmap(df.diff().corr(), cmap="coolwarm")
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/5731a727-366a-452b-bfe9-dbd1e4dad850)  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/2025ac76-3d4a-4152-ab45-b82db6d9bf1d)
+
+#### Now we need to decompose these into trend, seasonality and residuals
+* **Trend component** - represents the long-term, overall direction in which the time series is moving
+* **Seasonal component** - accounts for regular, repeating patterns or fluctuations that occur at fixed intervals within a specific time frame
+* **Residuals** - errors/noise, capture the unexplained or irregular patterns that are not accounted for by the trend and seasonality  
+
+#### Let's dive into it
+	# Start by importing season_d
+	from statsmodels.tsa.seasonal import seasonal_decompose
+
+  	# Brute force float type (they did it in the textbook idk)
+	x = gym.astype(float) # force float
+
+ 	# Use the season_decompose method to store the decomposition
+	decomposition = seasonal_decompose(x)
+
+ 	# Extract the trend component
+	trend = decomposition.trend
+
+ 	# Extract the seasonal component
+	seasonal = decomposition.seasonal
+
+ 	# And the residual component
+	residual = decomposition.resid
+
+ 	# And let's do plot magic to see all of this
+	plt.subplot(411)
+	plt.plot(x, label='Original')
+	plt.legend(loc='best')
+	plt.subplot(412)
+	plt.plot(trend, label='Trend')
+	plt.legend(loc='best')
+	plt.subplot(413)
+	plt.plot(seasonal,label='Seasonality')
+	plt.legend(loc='best')
+	plt.subplot(414)
+	plt.plot(residual, label='Residuals')
+	plt.legend(loc='best')
+	plt.tight_layout()
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/bdbb9e61-a3dc-4f6e-b16e-ddba2b63ba74)
+
+### Autocorrelation
+
+
+
 
