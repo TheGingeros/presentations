@@ -198,6 +198,35 @@ The actual correlation coefficient is actually capturing both of those. So let's
 ![image](https://github.com/TheGingeros/presentations/assets/81049688/bdbb9e61-a3dc-4f6e-b16e-ddba2b63ba74)
 
 ### Autocorrelation
+* **Autocorrelation Function (ACF):**
+	* measure of the correlation between the TS with a lagged version of itself. For instance at lag 5, ACF would compare series at time instant t1. . . t2 with series at instant t1-5. . . t2-5 (t1-5 and t2 being end points).
+
+			# Import the method we need
+			from pandas.plotting import autocorrelation_plot
+
+  			# Force the float type
+			x = df["diet"].astype(float)
+
+  			# And plot
+			autocorrelation_plot(x)
+ *Output:*  
+ ![image](https://github.com/TheGingeros/presentations/assets/81049688/68c9529b-d162-4a5e-b155-ae4755dd71f9)
+ #### And let's compute the ACF
+ 	# import the pre-defined function
+ 	from statsmodels.tsa.stattools import acf
+
+  	# first item is NA
+	x_diff = x.diff().dropna()
+
+ 	# Define the lag
+	lag_acf = acf(x_diff, nlags=36)
+
+ 	# and plot it
+	plt.plot(lag_acf)
+	plt.title('Autocorrelation Function')
+*Output:*  
+![image](https://github.com/TheGingeros/presentations/assets/81049688/6594e504-4776-4925-b8e6-7af14f61e3e0)  
+ACF peaks every 12 months: Time series is correlated with itself shifted by 12 months.
 
 
 
