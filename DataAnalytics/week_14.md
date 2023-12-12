@@ -1,5 +1,7 @@
 # 9. Time Series in Python
 ### *112012068 Oskar Wladar*
+### *工管三乙 109A50009 楊儀珈*
+
 
 ## Series Data Structure Recap
 ### Importing Numpy and Pandas library
